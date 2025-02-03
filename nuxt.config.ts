@@ -10,9 +10,5 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
-  ui: {
-    prefix: "Nuxt",
-  },
-
   compatibilityDate: "2024-11-27",
 });

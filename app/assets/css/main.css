@@ -6,9 +6,23 @@
 
   --primary-color: #3761f3;
   --secondary-color: #f4f4f4;
+
+  --bg: #f4f4f8;
+  --text: #2f3144;
+
+  --sidebar: #fff;
 }
 
 :root {
   --ui-primary: var(--primary-color);
   --ui-secondary: var(--secondary-color);
+
+  --ui-bg: var(--bg);
+  --ui-text: var(--text);
+
+  --ui-sidebar: var(--sidebar);
+}
+
+body {
+  @apply antialiased text-[var(--ui-text)] bg-[var(--ui-bg)];
 }
