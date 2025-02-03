@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme {
+  --font-sans: 'Manrope', sans-serif;
+
+  --primary-color: #3761f3;
+  --secondary-color: #f4f4f4;
+}
+
+:root {
+  --ui-primary: var(--primary-color);
+  --ui-secondary: var(--secondary-color);
+}
