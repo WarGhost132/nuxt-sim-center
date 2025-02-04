@@ -1,5 +1,5 @@
 <template>
-  <div class="w-70 p-4 border border-gray-200 flex flex-col rounded-lg shadow-lg gap-3">
+  <div class="w-full xs:min-w-xs p-4 border border-gray-200 flex flex-col rounded-lg shadow-lg gap-3">
     <span class="font-bold text-lg">{{ group.name }}</span>
     <hr>
     <span>{{ group.faculty }}</span>

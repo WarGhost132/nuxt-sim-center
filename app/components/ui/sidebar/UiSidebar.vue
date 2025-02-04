@@ -20,7 +20,7 @@
               route.path === item.url ? 'bg-[var(--ui-primary)] text-[var(--ui-secondary)] hover:bg-[var(--ui-primary)]' : 'hover:bg-gray-100'
             ]"
           >
-            <UIcon :name="item.icon" class="w-6 h-6 flex-shrink-0" />
+            <UIcon :name="item.icon" class="w-6 h-6 shrink-0" />
             <span 
               v-if="!isCollapsed"
               class="ml-2 transition-opacity duration-300 ease-in-out flex-shrink-0"
