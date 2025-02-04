@@ -11,6 +11,7 @@
   --text: #2f3144;
 
   --sidebar: #fff;
+  --card: #fff;
 }
 
 :root {
@@ -21,6 +22,7 @@
   --ui-text: var(--text);
 
   --ui-sidebar: var(--sidebar);
+  --ui-card: var(--card);
 }
 
 body {
