@@ -1,6 +1,9 @@
 <template>
-  <div class="flex min-h-screen">
-    <UiSidebar :is-collapsed="isSidebarCollapsed" @toggle="toggleSidebar" />
+  <div class="flex flex-col md:flex-row">
+    <UiSidebar 
+      :is-collapsed="isSidebarCollapsed"
+      @toggle="toggleSidebar"
+    />
     <main class="flex-1 p-4 transition-all duration-300">
       <slot />
     </main>
