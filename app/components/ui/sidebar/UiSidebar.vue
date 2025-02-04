@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="sticky top-0 z-10 md:h-screen bg-[var(--ui-sidebar)] border-r border-gray-200 p-4 transition-all duration-300 ease-in-out overflow-hidden"
+    class="sticky top-0 z-10 md:h-screen bg-[var(--ui-sidebar)] border border-[var(--ui-border)] p-4 transition-all duration-300 ease-in-out overflow-hidden"
     :class="{ 
       'h-[470px] w-full md:w-64': !isCollapsed,
       'h-18 md:w-18.5': isCollapsed

@@ -12,6 +12,8 @@
 
   --sidebar: #fff;
   --card: #fff;
+
+  --border: #e0e0e0;
 }
 
 :root {
@@ -23,6 +25,8 @@
 
   --ui-sidebar: var(--sidebar);
   --ui-card: var(--card);
+
+  --ui-border: var(--border)
 }
 
 body {
