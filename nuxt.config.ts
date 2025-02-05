@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  devtools: { enabled: false },
 
   modules: ["@nuxt/ui", "@nuxt/eslint", "@pinia/nuxt"],
 
@@ -11,7 +11,7 @@ export default defineNuxtConfig({
   },
 
   pinia: {
-    storeDirs: ["./app/stores/**"],
+    storesDirs: ["./app/stores/**"],
   },
 
   compatibilityDate: "2024-11-27",

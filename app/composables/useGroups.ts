@@ -9,15 +9,15 @@ export interface IGroup {
   specialization: string;
 }
 
+let groupsCache: IGroup[] = [];
+
 export async function getGroupsAsync(): Promise<IGroup[]> {
+  if (groupsCache.length > 0) return groupsCache;
+
   try {
     const response = await axios.get<IGroup[]>(`${API_BASE_URL}/groups`);
-
-    if (response.data) {
-      return response.data;
-    }
-
-    return [];
+    groupsCache = response.data || [];
+    return groupsCache;
   } catch (error) {
     console.error("getGroupsAsync Error:", error);
     return [];
