@@ -1,34 +1,46 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
-@theme {
-  --font-sans: 'Manrope', sans-serif;
+:root {
+  --color-bg: #FFFFFF;
 
-  --primary-color: #3761f3;
-  --secondary-color: #f4f4f4;
+  --color-text: #262626;
+  --color-text-active: #D8D8DA;
 
-  --bg: #f4f4f8;
-  --text: #2f3144;
+  --color-sidebar: #F9FBFF;
 
-  --sidebar: #fff;
-  --card: #fff;
+  --color-card: #F3F4F6;
 
-  --border: #e0e0e0;
+  --color-border: #D1D5DB;
+
+  --color-primary: #4D6BFE;
+  --color-primary-hover: #3E5AE0;
+
+  --color-badge-planned: #AFBFF5;
+  --color-badge-proccess: #FFDAA1;
+  --color-badge-done: #91C893;
 }
 
-:root {
-  --ui-primary: var(--primary-color);
-  --ui-secondary: var(--secondary-color);
+.dark {
+  --color-bg: #292A2D;
 
-  --ui-bg: var(--bg);
-  --ui-text: var(--text);
+  --color-text: #D8D8DA;
+  --color-text-active: #D8D8DA;
 
-  --ui-sidebar: var(--sidebar);
-  --ui-card: var(--card);
+  --color-sidebar: #212327;
 
-  --ui-border: var(--border)
+  --color-card: #404045;
+
+  --color-border: #5A5A5E;
+
+  --color-primary: #4D6BFE;
+  --color-primary-hover: #3E5AE0;
+
+  --color-badge-planned: #5A6AB1;
+  --color-badge-proccess: #C88C30;
+  --color-badge-done: #4F8656;
 }
 
 body {
-  @apply antialiased text-[var(--ui-text)] bg-[var(--ui-bg)];
+  @apply antialiased bg-[var(--color-bg)] text-[var(--color-text)]
 }

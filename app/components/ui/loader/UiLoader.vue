@@ -15,7 +15,7 @@
 .loader-dot {
   width: 24px;
   height: 24px;
-  background-color: var(--ui-primary);
+  background-color: var(--color-primary);
   border-radius: 50%;
   display: inline-block;
 }

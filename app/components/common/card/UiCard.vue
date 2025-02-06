@@ -1,5 +1,5 @@
 <template>
-  <UCard class="bg-[var(--ui-card)] rounded-lg shadow-md overflow-hidden">
+  <UCard class="bg-[var(--color-card)] rounded-lg shadow-md overflow-hidden">
     <div class="p-4">
       <slot />
     </div>
