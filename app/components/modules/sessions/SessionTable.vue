@@ -14,7 +14,7 @@
       <UPagination
         :default-page="pagination.pageIndex + 1"
         :items-per-page="pagination.pageSize"
-        :total="props.sessions.length"
+        :total="filteredSessions.length"
         @update:page="(p) => pagination.pageIndex = p - 1"
       />
     </div>
@@ -22,11 +22,11 @@
 </template>
 
 <script setup lang="ts">
-import { h, ref, onMounted, computed } from 'vue'
 import type { TableColumn } from '@nuxt/ui'
 import UiBadge from '~/components/common/badge/UiBadge.vue'
 import UiButton from '~/components/common/button/UiButton.vue'
 import { getPaginationRowModel } from '@tanstack/vue-table'
+import { useSearchStore } from '~/stores/search.store'
 
 const table = useTemplateRef('table')
 
@@ -34,6 +34,9 @@ const props = defineProps<{ sessions: ISession[] }>()
 
 const groups = ref<IGroup[]>([])
 const rooms = ref<IRoom[]>([])
+
+const searchStore = useSearchStore()
+const globalFilter = computed(() => searchStore.searchQuery)
 
 onMounted(async () => {
   groups.value = await getGroupsAsync()
@@ -117,13 +120,25 @@ const paginationOptions = {
   getPaginationRowModel: getPaginationRowModel()
 }
 
+const filteredSessions = computed(() => {
+  if (!globalFilter.value.trim()) return props.sessions
+
+  const filterText = globalFilter.value.toLowerCase().trim()
+
+  return props.sessions.filter(session =>
+    session.name.toLowerCase().includes(filterText) ||
+    session.type.toLowerCase().includes(filterText) ||
+    session.status.toLowerCase().includes(filterText)
+  )
+})
+
 const sortedSessions = computed(() => {
   const [sort] = sorting.value
-  if (!sort) return props.sessions
+  if (!sort) return filteredSessions.value
 
   const { id, desc } = sort
 
-  return [...props.sessions].sort((a, b) => {
+  return [...filteredSessions.value].sort((a, b) => {
     const aValue = a[id as keyof ISession]
     const bValue = b[id as keyof ISession]
 
