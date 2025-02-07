@@ -7,10 +7,10 @@
     }"
   >
     <div class="flex justify-end md:justify-start">
-      <button class="mb-4 p-2 hover:bg-[var(--color-primary)] rounded cursor-pointer" @click="$emit('toggle')">
+      <button class="flex justify-center items-center mb-4 p-2 hover:bg-[var(--color-primary)] rounded cursor-pointer hover:text-[var(--color-text-active)]" @click="$emit('toggle')">
         <UIcon 
           :name="isCollapsed ? 'i-heroicons-bars-3' : 'i-heroicons-x-mark'" 
-          class="w-6 h-6" 
+          class="w-6 h-6"
         />
       </button>
     </div>

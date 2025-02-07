@@ -1,22 +1,24 @@
 <template>
   <div class="w-full">
-    <UTable
-      ref="table"
-      v-model:sorting="sorting"
-      v-model:pagination="pagination"
-      :data="sortedAndPaginatedSessions"
-      :columns="columns"
-      :pagination-options="paginationOptions"
-      class="flex-1"
-    />
-
-    <div class="flex justify-center border-t border-[var(--color-border)] pt-4">
-      <UPagination
-        :default-page="pagination.pageIndex + 1"
-        :items-per-page="pagination.pageSize"
-        :total="filteredSessions.length"
-        @update:page="(p) => pagination.pageIndex = p - 1"
+    <div class="overflow-x-auto">
+      <UTable
+        ref="table"
+        v-model:sorting="sorting"
+        v-model:pagination="pagination"
+        :data="sortedAndPaginatedSessions"
+        :columns="columns"
+        :pagination-options="paginationOptions"
+        class="min-w-full text-sm sm:text-base lg:text-lg"
       />
+
+      <div class="flex justify-center border-t border-[var(--color-border)] pt-4">
+        <UPagination
+          :default-page="pagination.pageIndex + 1"
+          :items-per-page="pagination.pageSize"
+          :total="filteredSessions.length"
+          @update:page="(p) => pagination.pageIndex = p - 1"
+        />
+      </div>
     </div>
   </div>
 </template>
