@@ -1,14 +1,46 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
-@theme {
-  --font-sans: 'Manrope', sans-serif;
+:root {
+  --color-bg: #FFFFFF;
 
-  --primary-color: #3761f3;
-  --secondary-color: #f4f4f4;
+  --color-text: #262626;
+  --color-text-active: #D8D8DA;
+
+  --color-sidebar: #F9FBFF;
+
+  --color-card: #F3F4F6;
+
+  --color-border: #D1D5DB;
+
+  --color-primary: #4D6BFE;
+  --color-primary-hover: #3E5AE0;
+
+  --color-badge-planned: #AFBFF5;
+  --color-badge-proccess: #FFDAA1;
+  --color-badge-done: #91C893;
 }
 
-:root {
-  --ui-primary: var(--primary-color);
-  --ui-secondary: var(--secondary-color);
+.dark {
+  --color-bg: #292A2D;
+
+  --color-text: #D8D8DA;
+  --color-text-active: #D8D8DA;
+
+  --color-sidebar: #212327;
+
+  --color-card: #404045;
+
+  --color-border: #5A5A5E;
+
+  --color-primary: #4D6BFE;
+  --color-primary-hover: #3E5AE0;
+
+  --color-badge-planned: #5A6AB1;
+  --color-badge-proccess: #C88C30;
+  --color-badge-done: #4F8656;
+}
+
+body {
+  @apply antialiased bg-[var(--color-bg)] text-[var(--color-text)]
 }
