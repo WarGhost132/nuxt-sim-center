@@ -2,8 +2,9 @@
   <div class="w-full">
     <UTable
       ref="table"
+      v-model:sorting="sorting"
       v-model:pagination="pagination"
-      :data="paginatedSessions"
+      :data="sortedAndPaginatedSessions"
       :columns="columns"
       :pagination-options="paginationOptions"
       class="flex-1"
@@ -24,6 +25,7 @@
 import { h, ref, onMounted, computed } from 'vue'
 import type { TableColumn } from '@nuxt/ui'
 import UiBadge from '~/components/common/badge/UiBadge.vue'
+import UiButton from '~/components/common/button/UiButton.vue'
 import { getPaginationRowModel } from '@tanstack/vue-table'
 
 const table = useTemplateRef('table')
@@ -41,7 +43,19 @@ onMounted(async () => {
 const columns: TableColumn<ISession>[] = [
   {
     accessorKey: 'date',
-    header: 'Дата',
+    header: ({ column }) => {
+      const isSorted = column.getIsSorted()
+
+      return h(UiButton, {
+        label: 'Дата',
+        icon: isSorted
+          ? isSorted === 'asc'
+            ? 'i-lucide-arrow-up-narrow-wide'
+            : 'i-lucide-arrow-down-wide-narrow'
+          : 'i-lucide-arrow-up-down',
+          onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
+      })
+    },
   },
   {
     accessorKey: 'time',
@@ -87,6 +101,13 @@ const columns: TableColumn<ISession>[] = [
   }
 ]
 
+const sorting = ref([
+  {
+    id: 'date',
+    desc: false
+  }
+])
+
 const pagination = ref({
   pageIndex: 0,
   pageSize: 8
@@ -96,9 +117,25 @@ const paginationOptions = {
   getPaginationRowModel: getPaginationRowModel()
 }
 
-const paginatedSessions = computed(() => {
+const sortedSessions = computed(() => {
+  const [sort] = sorting.value
+  if (!sort) return props.sessions
+
+  const { id, desc } = sort
+
+  return [...props.sessions].sort((a, b) => {
+    const aValue = a[id as keyof ISession]
+    const bValue = b[id as keyof ISession]
+
+    if (aValue < bValue) return desc ? 1 : -1
+    if (aValue > bValue) return desc ? -1 : 1
+    return 0
+  })
+})
+
+const sortedAndPaginatedSessions = computed(() => {
   const start = pagination.value.pageIndex * pagination.value.pageSize
   const end = start + pagination.value.pageSize
-  return props.sessions.slice(start, end)
+  return sortedSessions.value.slice(start, end)
 })
 </script>
