@@ -1,2 +1,0 @@
-[functions.server]
-  external_node_modules = ["tslib"]
