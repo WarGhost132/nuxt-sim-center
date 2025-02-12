@@ -1,30 +1,34 @@
 <template>
   <div class="w-full">
-    <UTable
-      ref="table"
-      v-model:pagination="pagination"
-      :data="paginatedSessions"
-      :columns="columns"
-      :pagination-options="paginationOptions"
-      class="flex-1"
-    />
-
-    <div class="flex justify-center border-t border-[var(--color-border)] pt-4">
-      <UPagination
-        :default-page="pagination.pageIndex + 1"
-        :items-per-page="pagination.pageSize"
-        :total="props.sessions.length"
-        @update:page="(p) => pagination.pageIndex = p - 1"
+    <div class="overflow-x-auto">
+      <UTable
+        ref="table"
+        v-model:sorting="sorting"
+        v-model:pagination="pagination"
+        :data="sortedAndPaginatedSessions"
+        :columns="columns"
+        :pagination-options="paginationOptions"
+        class="min-w-full text-sm sm:text-base lg:text-lg"
       />
+
+      <div class="flex justify-center border-t border-[var(--color-border)] pt-4">
+        <UPagination
+          :default-page="pagination.pageIndex + 1"
+          :items-per-page="pagination.pageSize"
+          :total="filteredSessions.length"
+          @update:page="(p) => pagination.pageIndex = p - 1"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { h, ref, onMounted, computed } from 'vue'
 import type { TableColumn } from '@nuxt/ui'
 import UiBadge from '~/components/common/badge/UiBadge.vue'
+import UiButton from '~/components/common/button/UiButton.vue'
 import { getPaginationRowModel } from '@tanstack/vue-table'
+import { useSearchStore } from '~/stores/search.store'
 
 const table = useTemplateRef('table')
 
@@ -32,6 +36,9 @@ const props = defineProps<{ sessions: ISession[] }>()
 
 const groups = ref<IGroup[]>([])
 const rooms = ref<IRoom[]>([])
+
+const searchStore = useSearchStore()
+const globalFilter = computed(() => searchStore.searchQuery)
 
 onMounted(async () => {
   groups.value = await getGroupsAsync()
@@ -41,7 +48,19 @@ onMounted(async () => {
 const columns: TableColumn<ISession>[] = [
   {
     accessorKey: 'date',
-    header: 'Дата',
+    header: ({ column }) => {
+      const isSorted = column.getIsSorted()
+
+      return h(UiButton, {
+        label: 'Дата',
+        icon: isSorted
+          ? isSorted === 'asc'
+            ? 'i-lucide-arrow-up-narrow-wide'
+            : 'i-lucide-arrow-down-wide-narrow'
+          : 'i-lucide-arrow-up-down',
+          onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
+      })
+    },
   },
   {
     accessorKey: 'time',
@@ -87,6 +106,13 @@ const columns: TableColumn<ISession>[] = [
   }
 ]
 
+const sorting = ref([
+  {
+    id: 'date',
+    desc: false
+  }
+])
+
 const pagination = ref({
   pageIndex: 0,
   pageSize: 8
@@ -96,9 +122,37 @@ const paginationOptions = {
   getPaginationRowModel: getPaginationRowModel()
 }
 
-const paginatedSessions = computed(() => {
+const filteredSessions = computed(() => {
+  if (!globalFilter.value.trim()) return props.sessions
+
+  const filterText = globalFilter.value.toLowerCase().trim()
+
+  return props.sessions.filter(session =>
+    session.name.toLowerCase().includes(filterText) ||
+    session.type.toLowerCase().includes(filterText) ||
+    session.status.toLowerCase().includes(filterText)
+  )
+})
+
+const sortedSessions = computed(() => {
+  const [sort] = sorting.value
+  if (!sort) return filteredSessions.value
+
+  const { id, desc } = sort
+
+  return [...filteredSessions.value].sort((a, b) => {
+    const aValue = a[id as keyof ISession]
+    const bValue = b[id as keyof ISession]
+
+    if (aValue < bValue) return desc ? 1 : -1
+    if (aValue > bValue) return desc ? -1 : 1
+    return 0
+  })
+})
+
+const sortedAndPaginatedSessions = computed(() => {
   const start = pagination.value.pageIndex * pagination.value.pageSize
   const end = start + pagination.value.pageSize
-  return props.sessions.slice(start, end)
+  return sortedSessions.value.slice(start, end)
 })
 </script>
